@@ -1,0 +1,13 @@
+*.gguf
+private_env_vars.sh
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+env/
+venv/
+*.egg-info/
+dist/
+build/
+.idea/
+.DS_Store

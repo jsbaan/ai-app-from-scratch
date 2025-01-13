@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with JorisBot</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="title">Welcome to JorisBot!</h1>
+        <p class="description">This is a demo for a 2-part blogpost series on designing, building and deploying a scalable AI-powered chat app from scratch. </p>
+        <p class="description">Please enter a name to start a new chat, or a name you entered before to continue that chat. </p>
+        <form id="username-form" action="/chats" method="POST">
+            <input type="text" name="username" placeholder="Type your name..." autofocus="autofocus">
+            <input type="submit" value="Send">
+        </form>
+    </div>
+</body>
+</html>

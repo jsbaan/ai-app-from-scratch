@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with JorisBot</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <a href="/" class="home-button">Home</a>
+        <h1 class="title">Chat with JorisBot</h1>
+        <div class="chat-history" id="chat-messages">
+            {% for message in messages %}
+                <div class="chat-message">
+                    <p>{{ message.role }}:  {{ message.content }}</p>
+                </div>
+            {% endfor %}
+        </div>
+        <form id="chat-form" action="/generate/{{ chat_id }}" method="POST">
+            <input type="text" name="prompt" placeholder="Type your message..." autofocus="autofocus">
+            <input type="submit" value="Send" id="submit-button">
+        </form>
+    </div>
+
+    <script>
+        // Scroll down to last chat message upon page load
+        document.addEventListener("DOMContentLoaded", function() {
+            var chatMessages = document.getElementById("chat-messages");
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        });
+        // Disable submit button after form submission
+        const form = document.getElementById("chat-form");
+        const submitButton = document.getElementById("submit-button");
+
+        form.addEventListener("submit", function(event) {
+            submitButton.disabled = true;
+            submitButton.value = "Sending..."; // Change button text
+        });
+    </script>
+</body>
+</html>

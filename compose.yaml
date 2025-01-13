@@ -1,0 +1,67 @@
+# This docker compose file is used to build or pull the images and run the containers of all services.
+# Docker Compose automatically creates a user-defined bridge network for the containers to communicate with each other.
+# The only part of the app we can reach is the nginx container, whose port 80 we publish to our host machine's port 80.
+# The app wll be available at localhost.
+
+# To build and run all services:
+#  `docker-compose up --build`
+# To tear down the app with all its services
+#  `docker compose down`
+
+services:
+
+  # Build UI image and run container once the db-api and lm-api are up. Pass their hostnames as env vars.
+  chat-ui:
+    build: ./chat-ui
+    depends_on:
+      db-api:
+        condition: service_started
+      lm-api:
+        condition: service_started
+    environment:
+      DB_API_URL: http://db-api
+      LM_API_URL: http://lm-api
+      SESSION_KEY: top-secret-key
+
+  # Build db-api image and run container once the db is up. Pass db credentials and hostname as env vars.
+  db-api:
+    build: ./db-api
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+        POSTGRES_USER: myuser
+        POSTGRES_PASSWORD: mypassword
+        POSTGRES_DB: postgres
+        POSTGRES_HOST: db
+
+  # Pull postgres image and run container. Set db credentials as env vars and perform periodical health check.
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: myuser  # set database username
+      POSTGRES_PASSWORD: mypassword # set database password
+    healthcheck: # healthcheck to ensure the database is up and running before the db-api container starts
+      test: [ "CMD-SHELL", "pg_isready -U myuser -h localhost -d postgres" ]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+
+  # Pull llama.cpp server image and run container; pass parameters to llama.cpp process; mount model file directory.
+  lm-api:
+    image: ghcr.io/ggerganov/llama.cpp:server
+    volumes:
+      - ./lm-api/models:/models
+    # Run local inference server with max 200 tokens and flash attention
+    command: -m /models/qwen2.5-0.5b-instruct-q5_k_m.gguf --port 80 --host 0.0.0.0 -n 200 -fa
+
+  # Pull nginx image and run container once chat-ui is up. Mount the nginx configuration file and publish port 80 to host machine.
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "80:80"
+    depends_on:
+      - chat-ui
