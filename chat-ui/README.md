@@ -3,7 +3,7 @@ Simple web-based user interface built with FastAPI that allows users to start or
 The UI makes HTTP requests to the database API and language model API, so make sure these are running.
 
 # Running the server
-There are several ways to run the UI. We will make it available at http://localhost:8002.
+When running the full app, we use Docker Compose. There are several ways to run the UI manually. We will make it available at http://localhost:8002.
 
 ## Python server
 By default, the UI expects the LM-API to run at localhost:8000 and the DB-API at localhost:8001. To run the Python server manually, first create a virtual environment and install the packages in `requirements.txt`.

@@ -4,7 +4,7 @@ A Python API built with FastAPI and SQLAlchemy that queries a PostgreSQL databas
 The API will crash without a PostgreSQL database server running, for instructions, see the [db' Readme](../db/README.md). 
 
 # Running the server
-There are several ways to run the API. We'll make it available at http://localhost:8001. 
+When running the full app, we use Docker Compose. There are several ways to manually run the API.  We'll make it available at http://localhost:8001. 
 
 ## Python server on localhost
 By default, the API expects the database server at localhost:5432 with "myusername" and "mypassword". To run the Python server manually, first create a virtual environment and install the packages in `requirements.txt`. 

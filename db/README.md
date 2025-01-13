@@ -1,5 +1,5 @@
 # PostgreSQL database server
-This directory does not contain any code but simply documents how to manually run a PostgreSQL database server in a Docker container using the official postgres image.
+This directory does not contain any code but simply documents how to manually run a PostgreSQL database server in a Docker container using the official postgres image. When running the full app, we use Docker Compose.
 
 
 ## Running the database server

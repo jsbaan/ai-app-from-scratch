@@ -1,5 +1,5 @@
 # Language model API
-This directory does not contain any code but simply documents how to run the language model API as a Docker container.
+This directory does not contain any code but simply documents how to manually run the language model API as a Docker container. When running the full app, we use Docker Compose. 
 
 I'm using the [llama.cpp inference engine](https://github.com/ggerganov/llama.cpp/blob/master) written in C/C++ that provides a [Docker API server image](https://github.com/ggerganov/llama.cpp/blob/master/examples/server/README.md)  implementing the popular [OpenAI API specification](https://github.com/openai/openai-openapi?tab=readme-ov-file). It comes with a basic UI for experimenting. 
 
@@ -31,4 +31,4 @@ curl -X POST http://localhost:8000/v1/chat/completions \
 	}'
 ```
 ## Why a Dockerfile?
-We don't need a Dockerfile to run the LM-API locally since we simply mount the model directory. The Dockerfile copies the model file into the image and ew use it when deploying to Azure to avoid uploading the model to some file storage and then mounting that to Azure Container Apps. 
+We don't need a Dockerfile to run the LM-API locally since we simply mount the model directory. The Dockerfile copies the model file into the image and we use it when deploying to Azure to avoid uploading the model to some file storage and then mounting that to Azure Container Apps. 
