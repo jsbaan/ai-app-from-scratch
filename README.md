@@ -1,5 +1,5 @@
 <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
-# Design, Build & Deploy an AI Chat App from Scratch
+# Designing, Building & Deploying an AI Chat App from Scratch
 
 The aim of this repository is to learn more about the fundamentals of modern, scalable web applications by designing, building and deploying an AI-powered chat app from scratch. We will have full control over the language model, data, infrastructure and costs. 
 
