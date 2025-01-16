@@ -170,7 +170,7 @@ az containerapp create --name $DB_API \
   --memory 1 \
   --query properties.configuration.ingress.fqdn
 
-cho "Deploy LM API on Container Apps"
+echo "Deploy LM API on Container Apps"
 az containerapp create --name $LM_API \
   --resource-group $RESOURCE_GROUP \
   --environment $ACA_ENVIRONMENT \

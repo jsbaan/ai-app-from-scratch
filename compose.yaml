@@ -54,7 +54,7 @@ services:
     volumes:
       - ./lm-api/models:/models
     # Run local inference server with max 200 tokens and flash attention
-    command: -m /models/qwen2.5-0.5b-instruct-q5_k_m.gguf --port 80 --host 0.0.0.0 -n 200 -fa
+    command: -m /models/qwen2.5-0.5b-instruct-q5_k_m.gguf --port 80 --host 0.0.0.0 -n 128 -fa -c 1024
 
   # Pull nginx image and run container once chat-ui is up. Mount the nginx configuration file and publish port 80 to host machine.
   nginx:

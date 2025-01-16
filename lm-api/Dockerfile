@@ -5,5 +5,5 @@ FROM ghcr.io/ggerganov/llama.cpp:server
 
 COPY models /models
 
-# Run the inference API server with max 100 response tokens and flash attention.
-CMD ["-m", "/models/qwen2.5-0.5b-instruct-q5_k_m.gguf", "--port", "80", "--host", "0.0.0.0", "-n", "100", "-fa"]
+# Run the inference API server with max 128 response tokens, flash attention, and 4096 context
+CMD ["-m", "/models/qwen2.5-0.5b-instruct-q5_k_m.gguf", "--port", "80", "--host", "0.0.0.0", "-n", "128", "-fa", "-c", "1024"]
