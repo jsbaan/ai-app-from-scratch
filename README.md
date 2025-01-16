@@ -10,7 +10,7 @@ There are two blogposts that accompany this repository. Please read them for a d
 2. add link
 
 
-Here is a quick demo of starting a new chat, coming back to that same chat, or starting another chat. This is the cloud deployment from part 2. It will be live at [chat.jorisbaan.nl](chat.jorisbaan.nl) until my Azure credits run out.
+Here is a quick demo of the app when deployed to Azure. It shows starting a new chat, coming back to that same chat, or starting a second chat.
 
 ![](chat_demo.gif)
 

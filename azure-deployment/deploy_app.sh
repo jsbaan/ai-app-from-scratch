@@ -213,7 +213,7 @@ URL=$(az containerapp show -n $UI -g $RESOURCE_GROUP -o tsv --query "properties.
 VERIFICATION_CODE=$(az containerapp show -n $UI -g $RESOURCE_GROUP -o tsv --query "properties.customDomainVerificationId")
 
 # First go to domain registrar to add a CNAME record with this URL and a TXT record with this verification code
-# Then run the following commands to bind the domain to the UI app
+# (Do this manually)
 
 # Add custom domain name to UI App
 az containerapp hostname add --hostname $CUSTOM_DOMAIN -g $RESOURCE_GROUP -n $UI
