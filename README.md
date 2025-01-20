@@ -6,8 +6,8 @@ The aim of this repository is to learn more about the fundamentals of modern, sc
 This will hopefully provide an glimpse of how real-world scalable AI systems work under the hood. The focus will be on engineering, backend and cloud deployment rather than the language model output or a fancy frontend. The app is built with FastAPI, PostgreSQL, llama.cpp, nginx, and Docker. 
 
 There are two blogposts that accompany this repository. Please read them for a detailed walkthrough of the code.
-1. add link
-2. add link
+1. [Designing, Building & Deploying an AI Chat App from Scratch (Part 1): Microservices Architecture and Local Development](https://medium.com/towards-data-science/designing-building-deploying-an-ai-chat-app-from-scratch-part-1-f1ebf5232d4d)
+2. [Designing, Building & Deploying an AI Chat App from Scratch (Part 2): Cloud Deployment and Scaling](https://towardsdatascience.com/designing-building-deploying-an-ai-chat-app-from-scratch-part-2-c75f712eebe5)
 
 
 Here is a quick demo of the app when deployed to Azure. It shows starting a new chat, coming back to that same chat, or starting a second chat.
