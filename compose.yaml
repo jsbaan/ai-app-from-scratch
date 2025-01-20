@@ -1,4 +1,4 @@
-# This docker compose file is used to build or pull the images and run the containers of all services.
+# This docker compose file builds or pulls the images and runs the containers of all services on our local computer.
 # Docker Compose automatically creates a user-defined bridge network for the containers to communicate with each other.
 # The only part of the app we can reach is the nginx container, whose port 80 we publish to our host machine's port 80.
 # The app wll be available at localhost.
