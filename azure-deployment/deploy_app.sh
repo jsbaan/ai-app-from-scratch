@@ -180,8 +180,8 @@ az containerapp create --name $LM_API \
   --ingress internal \
   --min-replicas 1 \
   --max-replicas 5 \
-  --cpu 2 \
-  --memory 4 \
+  --cpu 1 \
+  --memory 2 \
   --scale-rule-name my-http-rule \
   --scale-rule-http-concurrency 2 \
   --query properties.configuration.ingress.fqdn
