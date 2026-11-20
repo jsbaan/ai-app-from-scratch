@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from fastapi import Depends, FastAPI, Request, HTTPException
 from sqlalchemy.orm import Session
 from contextlib import asynccontextmanager
@@ -42,8 +44,10 @@ def get_db():
         db.close()
 
 
+# Endpoints are plain `def` (not `async def`) because SQLAlchemy's Session is synchronous. FastAPI runs `def` endpoints
+# in a threadpool, so a slow query doesn't block the event loop and other requests can be served in the meantime.
 @app.post("/chats", response_model=schemas.Chat)
-async def create_chat(chat: schemas.ChatCreate, db: Session = Depends(get_db)):
+def create_chat(chat: schemas.ChatCreate, db: Session = Depends(get_db)):
     """
     POST endpoint to create a new chat in the database with the username and messages in the request body.
     Args:
@@ -58,7 +62,7 @@ async def create_chat(chat: schemas.ChatCreate, db: Session = Depends(get_db)):
 
 
 @app.get("/chats/{chat_id}", response_model=schemas.Chat)
-async def get_chat_by_id(request: Request, chat_id: str, db: Session = Depends(get_db)):
+def get_chat_by_id(request: Request, chat_id: UUID, db: Session = Depends(get_db)):
     """
     GET endpoint to retrieve a chat by its id from the postgres database.
     Args:
@@ -74,11 +78,15 @@ async def get_chat_by_id(request: Request, chat_id: str, db: Session = Depends(g
 
     if not session_id:
         raise HTTPException(status_code=400, detail="Session ID is required")
-    return crud.get_chat(db, chat_id, session_id)
+    db_chat = crud.get_chat(db, chat_id, session_id)
+    if db_chat is None:
+        # Same response whether the chat doesn't exist or belongs to another session, so we don't leak which ids exist.
+        raise HTTPException(status_code=404, detail="Chat not found")
+    return db_chat
 
 
 @app.get("/chats/username/{username}", response_model=schemas.Chat)
-async def get_chat_by_username(
+def get_chat_by_username(
     request: Request, username: str, db: Session = Depends(get_db)
 ):
     """
@@ -96,12 +104,15 @@ async def get_chat_by_username(
 
     if not session_id:
         raise HTTPException(status_code=400, detail="Session ID is required")
-    return crud.get_chat_by_username(db, username, session_id)
+    db_chat = crud.get_chat_by_username(db, username, session_id)
+    if db_chat is None:
+        raise HTTPException(status_code=404, detail="Chat not found")
+    return db_chat
 
 
 @app.post("/chats/{chat_id}/message", response_model=schemas.Message)
-async def create_chat_message(
-    chat_id: str, message: schemas.MessageCreate, db: Session = Depends(get_db)
+def create_chat_message(
+    chat_id: UUID, message: schemas.MessageCreate, db: Session = Depends(get_db)
 ):
     """
     POST endpoint to add a new message to an existing chat in the database.
@@ -112,6 +123,9 @@ async def create_chat_message(
 
     Returns: the message as a dict that will be validated by the `Message` response_model.
     """
+    # Only allow writing to a chat that belongs to the session in the message, just like we scope reads.
+    if crud.get_chat(db, chat_id, message.session_id) is None:
+        raise HTTPException(status_code=404, detail="Chat not found")
     return crud.create_chat_message(db, chat_id, message)
 
 

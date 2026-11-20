@@ -49,8 +49,10 @@ class Message(Base):
     __tablename__ = "messages"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    content = Column(String, index=True)
-    role = Column(String, index=True)
+    # No index on content: we never filter by it, and Postgres rejects B-tree index entries over ~2.7KB, which would
+    # make long messages fail to insert. No index on role either, as it only has a handful of distinct values.
+    content = Column(String)
+    role = Column(String)
 
     # Session ID that links this message to a specific session.
     session_id = Column(String, index=True)
